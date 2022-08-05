@@ -1,0 +1,37 @@
+#lang racket
+
+(require fsm rackunit)
+
+;;  --> BIN-NUMS
+;; Purpose: Generate a binary number without leading zeroes of length <= MAX-LENGTH
+(define (generate-bn)
+  
+  (define MAX-LENGTH 10)
+
+  ;;  --> bit
+  ;; Purpose: Generate a random bit
+  (define (generate-bit) (if (< (random) 0.5) 0 1))
+
+  ;; natnum --> BIN-NUMS
+  ;; Purpose: Generate a random word of bits of the given length
+  (define (generate-0U1* n)
+    (if (= n 0)
+        '()
+        (cons (generate-bit) (generate-0U1* (sub1 n)))))
+        
+  (if (< (random) 0.01)
+      0
+      (cons 1 (generate-0U1* (random MAX-LENGTH)))))
+
+;; Tests
+;; word --> Boolean
+;; Purpose: Test if the given word is a BIN-NUMS
+(define (is-bin-nums? w)
+  (and (list? w)
+       (andmap (λ (bit) (or (= bit 0) (= bit 1))) w)))
+
+(check-pred is-bin-nums? (generate-bn))
+(check-pred is-bin-nums? (generate-bn))
+(check-pred is-bin-nums? (generate-bn))
+(check-pred is-bin-nums? (generate-bn))
+(check-pred is-bin-nums? (generate-bn))

@@ -1,0 +1,41 @@
+#lang racket
+
+(require fsm rackunit)
+
+;; A binary tree of X, (btof X), is either:
+;;  1. (void)
+;;  2. X
+;;  3. (list X (btof X) (btof X))
+
+;; Function Template
+;;; (btof X) ... --> ...
+;;; Purpose: ...
+;(define (f-on-btx a-btx ...)
+;  (cond [(void? a-btx) ...]
+;        [(not (list a-btx)) (f-on-X a-btx)]
+;        [else ...(f-on-X (first a-btx))...(f-on-btx (second a-btx))...(f-on-btx (third a-btx))]))
+;
+;;; Tests
+;(check-equals? (f-on-btx (void) ...) ...)
+;(check-equals? (f-on-btx ... ...) ...)
+;(check-equals? (f-on-btx (list ... ... ...) ...) ...)
+;     .
+;     .
+;     .
+
+;; (btof number) number --> (btof number)
+;; Purpose: Scale the given (btof number) by the given scalar
+(define (scale-btx a-btx k)
+  (cond [(void? a-btx) a-btx]
+        [(not (list? a-btx)) (* k a-btx)]
+        [else (list (* k (first a-btx))
+                    (scale-btx (second a-btx) k)
+                    (scale-btx (third a-btx) k))]))
+
+;; Tests
+(check-equal? (scale-btx (void) 10) (void))
+(check-equal? (scale-btx -50 2) -100)
+(check-equal? (scale-btx (list 10 (void) (list -8 (void) (void))) -2)
+               (list -20 (void) (list 16 (void) (void))))
+
+

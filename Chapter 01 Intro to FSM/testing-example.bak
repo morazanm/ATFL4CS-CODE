@@ -1,0 +1,10 @@
+#lang racket
+
+(require fsm rackunit)
+
+(check-equal? (= 6 6) #t)
+(check-equal? (* (+ 2 3) (/ 20 2)) 50)
+(check-equal? (string-length "FSM") 4)
+
+
+

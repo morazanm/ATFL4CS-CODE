@@ -1,0 +1,68 @@
+#lang racket
+
+(require fsm rackunit)
+
+;; Sample regexps
+(define A (singleton-regexp "a"))
+(define B (singleton-regexp "b"))
+(define AUB (union-regexp A B))
+(define AUB* (kleenestar-regexp AUB))
+(define ENDS-WITH-A  (concat-regexp AUB* A))
+
+(check-equal? (printable-regexp ENDS-WITH-A) "(a U b)*a")
+
+
+(define ZERO (singleton-regexp "0"))
+(define ONE  (singleton-regexp "1"))
+(define 0U1* (kleenestar-regexp (union-regexp ZERO ONE)))
+(define STARTS1 (concat-regexp ONE 0U1*))
+(define BIN-NUMS (union-regexp ZERO STARTS1))
+
+(check-equal? (printable-regexp BIN-NUMS) "(0 U 1(0 U 1)*)")
+
+;; regexp --> word
+;; Purpose: Generate a word in the language of the given regexp
+(define (gen-regexp-word rexp)
+
+  (define MAX-REPS 10)
+
+  ;; union-rexp --> (listof regexp)
+  ;; Purpose: Extract the sub-regexps of the given union-regexp
+  (define (extract-union-regexps urexp)
+    (let [(r1 (union-regexp-r1 urexp))
+          (r2 (union-regexp-r2 urexp))]
+      (if (not (union-regexp? r2))
+          (list r1 r2)
+          (cons r1 (extract-union-regexps r2)))))
+
+  ;; concat-rexp --> (listof regexp)
+  ;; Purpose: Extract the sub-regexps of the given concat-regexp
+  (define (extract-concat-regexps crexp)
+    (let [(r1 (concat-regexp-r1 crexp))
+          (r2 (concat-regexp-r2 crexp))]
+      (if (not (concat-regexp? r2))
+          (list r1 r2)
+          (cons r1 (extract-concat-regexps r2)))))
+  
+  (cond [(empty-regexp? rexp) EMP]
+        [(singleton-regexp? rexp)
+         (let [(element (singleton-regexp-a rexp))]
+           (if (symbol? element)
+               (string->symbol element)
+               (string->number element)))]
+        [(kleenestar-regexp? rexp)
+         (let* [(reps (random MAX-REPS))
+                (element-list (append-map
+                               (λ (x) (list x))
+                               (build-list
+                                reps
+                                (λ (i) (gen-regexp-word (kleenestar-regexp-r1 rexp))))))]
+           (if (empty? element-list) EMP element-list))]
+        [(union-regexp? rexp)
+         (let* [(uregexps (extract-union-regexps rexp))
+                (element (list-ref uregexps (random (length uregexps))))]
+           (gen-regexp-word element))]
+        [else (let [(cregexps (extract-concat-regexps rexp))]
+                (filter (λ (w) (not (eq? w EMP)))
+                        (flatten (map gen-regexp-word cregexps))))]))
+                

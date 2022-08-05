@@ -1,0 +1,7 @@
+#lang racket
+
+(require fsm)
+
+(define AB (concat-regexp (singleton-regexp "a") (singleton-regexp "b")))
+
+(printable-regexp AB)
