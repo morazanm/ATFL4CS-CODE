@@ -1,0 +1,27 @@
+digraph G {
+    rankdir="LR";
+    A338813 [label="A-338813", shape="doublecircle", color="black"];
+    A338812 [label="A-338812", shape="circle", color="black"];
+    A338811 [label="A-338811", shape="circle", color="black"];
+    A338810 [label="A-338810", shape="circle", color="black"];
+    A338809 [label="A-338809", shape="circle", color="black"];
+    A338808 [label="A-338808", shape="circle", color="black"];
+    A338807 [label="A-338807", shape="circle", color="forestgreen"];
+    A338813 -> A338813 [label="c, b, a", fontsize=15];
+    A338812 -> A338813 [label="c", fontsize=15];
+    A338812 -> A338810 [label="b", fontsize=15];
+    A338812 -> A338808 [label="a", fontsize=15];
+    A338811 -> A338807 [label="c", fontsize=15];
+    A338811 -> A338812 [label="b", fontsize=15];
+    A338811 -> A338808 [label="a", fontsize=15];
+    A338810 -> A338807 [label="c, b", fontsize=15];
+    A338810 -> A338811 [label="a", fontsize=15];
+    A338809 -> A338807 [label="c", fontsize=15];
+    A338809 -> A338810 [label="b", fontsize=15];
+    A338809 -> A338808 [label="a", fontsize=15];
+    A338808 -> A338807 [label="c", fontsize=15];
+    A338808 -> A338809 [label="b", fontsize=15];
+    A338808 -> A338808 [label="a", fontsize=15];
+    A338807 -> A338807 [label="c, b", fontsize=15];
+    A338807 -> A338808 [label="a", fontsize=15];
+}
