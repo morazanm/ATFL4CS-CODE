@@ -1,0 +1,12 @@
+digraph G {
+    rankdir="LR";
+    C [label="C", shape="doublecircle", color="black"];
+    B [label="B", shape="doublecircle", color="black"];
+    A [label="A", shape="circle", color="black"];
+    S [label="S", shape="circle", color="forestgreen"];
+    C -> C [label="a", fontsize=15];
+    B -> B [label="b", fontsize=15];
+    A -> C [label="b", fontsize=15];
+    A -> B [label="a", fontsize=15];
+    S -> A [label="b, a", fontsize=15];
+}
