@@ -10,7 +10,7 @@
 ;; N: even number of a and odd number of b, final state
 ;; P: odd number of a and even number of b
 
-(define EVEN-A-ODD-B (make-dfa '(S M N P X Y Z)
+(define EVEN-A-ODD-B (make-dfa '(S M N P)
                                '(a b)
                                'S
                                '(N)
@@ -21,10 +21,8 @@
                                  (N a M)
                                  (N b S)
                                  (P a S)
-                                 (P b M)
-                                 (X a Y)
-                                 (Y b Y))
-                               ))
+                                 (P b M))
+                               'no-dead))
 
 ;; Tests for EVEN-A-ODD-B
 (check-equal? (sm-apply EVEN-A-ODD-B '()) 'reject)
