@@ -85,6 +85,6 @@
 (check-equal? (C-INV '(b b a a b a a a)) #t)
 (check-equal? (C-INV '()) #t)
 
-(sm-visualize AT-LEAST-ONE-MISSING (list 'S S-INV) (list 'A A-INV) (list 'B B-INV) (list 'C C-INV))
+;(sm-visualize AT-LEAST-ONE-MISSING (list 'S S-INV) (list 'A A-INV) (list 'B B-INV) (list 'C C-INV))
 
 
