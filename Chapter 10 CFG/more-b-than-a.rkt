@@ -19,11 +19,11 @@
 
 ; Tests for numb>numa
 (check-equal? (grammar-derive numb>numa '(a b))
-              "(a b) is not in L(G)")
+              "(a b) is not in L(G).")
 (check-equal? (grammar-derive numb>numa '(a b a))
-              "(a b a) is not in L(G)")
+              "(a b a) is not in L(G).")
 (check-equal? (grammar-derive numb>numa '(a a a a a))
-              "(a a a a a) is not in L(G)")
+              "(a a a a a) is not in L(G).")
 (check-equal? (grammar-derive numb>numa '(b b b))
               '(S -> AbA -> bA -> bbA -> bbbA -> bbb))
 (check-equal? (grammar-derive numb>numa '(b b a b a a b))

@@ -2,6 +2,7 @@
 
 (require fsm rackunit)
 
+;; L {w | w in (a b)*}
 (define RG (make-rg '(S A)
                     '(a b)
                     `((S ,ARROW ,EMP)

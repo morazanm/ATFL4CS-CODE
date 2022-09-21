@@ -14,12 +14,12 @@
 
 ;; Tests for a2nb2n
 (check-equal? (grammar-derive a2nb2n '(b b b))
-              "(b b b) is not in L(G)")
+              "(b b b) is not in L(G).")
 (check-equal? (grammar-derive a2nb2n '(a b a))
-              "(a b a) is not in L(G)")
+              "(a b a) is not in L(G).")
 (check-equal? (grammar-derive a2nb2n '(a b))
               '(S -> aSb -> ab))
 (check-equal? (grammar-derive a2nb2n '(a a a b b b))
               '(S -> aSb -> aaSbb -> aaaSbbb -> aaabbb))
 
-(grammar-test a2nb2n 10)
+;;(grammar-test a2nb2n 10)

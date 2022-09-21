@@ -28,7 +28,7 @@
 (check-equal? (grammar-derive MULT3-as '(b b a b a b a a b))
               "(b b a b a b a a b) is not in L(G).")
 (check-equal? (grammar-derive MULT3-as '())
-              `(S ,ARROW ,EMP))
+              "The word () is too short to test.")
 (check-equal? (grammar-derive MULT3-as '(a a a))
               `(S ,ARROW aB ,ARROW aaC ,ARROW aaaS ,ARROW aaa))
 (check-equal? (grammar-derive MULT3-as '(b b a a b a b b))

@@ -72,7 +72,7 @@
   (and (even? (length (filter (λ (s) (eq? s 'a)) ci)))
        (odd? (length (filter (λ (s) (eq? s 'b)) ci)))))
 
-;; Tests for S-INV
+;; Tests for N-INV
 (check-equal? (N-INV '()) #f)
 (check-equal? (N-INV '(a b a b a)) #f)
 (check-equal? (N-INV '(a b b a a b)) #f)
@@ -87,7 +87,7 @@
   (and (odd? (length (filter (λ (s) (eq? s 'a)) ci)))
        (even? (length (filter (λ (s) (eq? s 'b)) ci)))))
 
-;; Tests for S-INV
+;; Tests for P-INV
 (check-equal? (P-INV '()) #f)
 (check-equal? (P-INV '(a b)) #f)
 (check-equal? (P-INV '(a b b a a b a)) #f)

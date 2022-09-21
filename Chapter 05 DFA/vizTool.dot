@@ -1,11 +1,15 @@
 digraph G {
     rankdir="LR";
-    F [label="F", fillcolor="transparent", style="filled", shape="doublecircle"];
-    S [label="S", shape="circle", color="forestgreen"];
-    ds [label="ds", shape="circle", color="black"];
-    S -> F [label="a", fontsize=15];
-    S -> ds [label="b", fontsize=15];
-    F -> ds [label="a", fontsize=15];
-    F -> F [color="#215dde", fontsize=15, label="b"];
-    ds -> ds [label="a, b", fontsize=15];
+    P [label="P", shape="circle", color="black"];
+    N [label="N", shape="doublecircle", color="black"];
+    M [label="M", shape="circle", color="black"];
+    S [label="S", fillcolor="transparent", style="filled", shape="circle", color="forestgreen"];
+    S -> P [label="a", fontsize=15];
+    S -> N [label="b", fontsize=15];
+    M -> N [label="a", fontsize=15];
+    M -> P [label="b", fontsize=15];
+    N -> M [label="a", fontsize=15];
+    N -> S [label="b", fontsize=15];
+    P -> S [label="a", fontsize=15];
+    P -> M [label="b", fontsize=15];
 }
