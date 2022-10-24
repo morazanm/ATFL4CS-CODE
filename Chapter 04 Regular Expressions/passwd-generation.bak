@@ -2,38 +2,103 @@
 
 (require fsm rackunit)
 
-;; Sample regexps
-(define A (singleton-regexp "a"))
-(define B (singleton-regexp "b"))
-(define AUB (union-regexp A B))
-(define AUB* (kleenestar-regexp AUB))
-(define ENDS-WITH-A  (concat-regexp AUB* A))
+;A password is a string that:
+; Has length >= 10
+; Includes at least one uppercase letter
+; Includes at least one lowercase letter
+; Includes at least one special character: $, &, !, and *
 
-(check-equal? (printable-regexp ENDS-WITH-A) "(a U b)*a")
+(define lowers '(a b c d e f g h i j k l m n o p q r s t u v w x y z))
+(define uppers '(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z))
+(define spcls  '($ & ! *))
 
+(define lc (map (λ (lcl) (singleton-regexp (symbol->string lcl)))
+                lowers))
+(define uc (map (λ (ucl) (singleton-regexp (symbol->string ucl)))
+                uppers))
+(define spc (map (λ (sc)
+                   (singleton-regexp (symbol->string sc)))
+                 spcls))
 
-(define ZERO (singleton-regexp "0"))
-(define ONE  (singleton-regexp "1"))
-(define 0U1* (kleenestar-regexp (union-regexp ZERO ONE)))
-(define STARTS1 (concat-regexp ONE 0U1*))
-(define BIN-NUMS (union-regexp ZERO STARTS1))
+(define MAX-KLEENESTAR-REPS 5)
 
-(check-equal? (printable-regexp BIN-NUMS) "(0 U 1(0 U 1)*)")
+;; (listof regexp) --> union-regexp
+;; Purpose: Create a union-regexp using the given list of regular expressions
+(define (create-union-regexp L)
+  (cond [(< (length L) 2) (error "create-union-regexp called with empty")]
+        [(empty? (rest (rest L))) (union-regexp (first L) (second L))]
+        [else (union-regexp (first L) (create-union-regexp (rest L)))]))
 
-;; Template for functions on a regular expression
-;;; regexp ... \arrow ...
-;;; Purpose: ...
-;(define (f-on-regexp rexp ...)
-;  (cond [(empty-regexp? rexp) ...]
-;        [(singleton-regexp? rexp) 
-;         ...(singleton-regexp-a rexp)...]
-;        [(kleenestar-regexp? rexp) 
-;         ...(f-on-regexp (kleenestar-regexp-r1 rexp))...]
-;        [(union-regexp? rexp) 
-;         ...(f-on-regexp (union-regexp-r1 rexp))...
-;         ...(f-on-regexp (union-regexp-r2 rexp))...]
-;        [else ...(f-on-regexp (concat-regexp-r1 rexp))...
-;              ...(f-on-regexp (concat-regexp-r2 rexp))...]))
+;; Tests
+(check-equal? (create-union-regexp (list (first lc) (first uc)))
+              (union-regexp (singleton-regexp "a") (singleton-regexp "A")))
+(check-equal? (create-union-regexp (list (first lc) (fourth uc) (third spc)))
+              (union-regexp
+               (singleton-regexp "a")
+               (union-regexp (singleton-regexp "D") (singleton-regexp "!"))))
+
+(define LOWER (create-union-regexp lc))
+(define UPPER (create-union-regexp uc))
+(define SPCHS (create-union-regexp spc))
+(define ARBTRY (kleenestar-regexp
+                (union-regexp LOWER
+                              (union-regexp UPPER SPCHS))))
+(define LUS (concat-regexp
+             ARBTRY
+             (concat-regexp
+              LOWER
+              (concat-regexp
+               UPPER
+               (concat-regexp ARBTRY (concat-regexp SPCHS ARBTRY))))))
+
+(define LSU (concat-regexp
+             ARBTRY
+             (concat-regexp
+              LOWER
+              (concat-regexp
+               SPCHS
+               (concat-regexp ARBTRY (concat-regexp UPPER ARBTRY))))))
+
+(define SLU (concat-regexp
+             ARBTRY
+             (concat-regexp
+              SPCHS
+              (concat-regexp
+               LOWER
+               (concat-regexp ARBTRY (concat-regexp UPPER ARBTRY))))))
+
+(define SUL (concat-regexp
+             ARBTRY
+             (concat-regexp
+              SPCHS
+              (concat-regexp
+               UPPER
+               (concat-regexp ARBTRY (concat-regexp LOWER ARBTRY))))))
+
+(define USL (concat-regexp
+             ARBTRY
+             (concat-regexp
+              UPPER
+              (concat-regexp
+               SPCHS
+               (concat-regexp ARBTRY (concat-regexp LOWER ARBTRY))))))
+
+(define ULS (concat-regexp
+             ARBTRY
+             (concat-regexp
+              UPPER
+              (concat-regexp
+               LOWER
+               (concat-regexp ARBTRY (concat-regexp SPCHS ARBTRY))))))
+
+(define PASSWD (union-regexp
+                LUS
+                (union-regexp
+                 LSU
+                 (union-regexp
+                  SLU
+                  (union-regexp SUL
+                                (union-regexp USL ULS))))))
 
 ;; regexp --> word
 ;; Purpose: Generate a random word in the language of the
@@ -65,8 +130,7 @@
                (list (string->symbol element))
                (list (string->number element))))]
         [(kleenestar-regexp? rexp)
-         (let* [(max-reps 20)
-                (reps (random max-reps))
+         (let* [(reps (random MAX-KLEENESTAR-REPS))
                 (element-list (flatten
                                (build-list
                                 reps
@@ -80,44 +144,55 @@
                 (filter (λ (w) (not (eq? w EMP)))
                         (flatten (map gen-regexp-word cregexps))))]))
 
-;; Tests
+;; word --> string
+;; Purpose: Convert the given password to a string
+(define (passwd->string passwd)
+  (list->string
+   (map (λ (s)
+          (first (string->list (symbol->string s))))
+        passwd)))
+
+;;Tests
+(check-equal? (passwd->string '(a j h B ! ! y y t c))
+              "ajhB!!yytc")
+(check-equal? (passwd->string '($ u t q x ! J i n * K C))
+              "$utqx!Jin*KC")
+
+;;  --> string
+;; Purpose: Generate a valid password
+(define (generate-password)
+  (let [(new-passwd (passwd->string (gen-regexp-word PASSWD)))]
+    (if (>= (string-length new-passwd) 10)
+        new-passwd
+        (generate-password))))
+
+;;Tests
+
+;; string --> (listof symbol)
+;; Purpose: Convert the given string to a list of symbols
+(define (str->los str)
+  (map (λ (c) (string->symbol (string c))) (string->list str)))
 
 ;; Tests
-;; word --> Boolean
-;; Purpose: Test if the given word is in BIN-NUMS
-(define (is-bin-nums? w)
-  (and (list? w)
-       (>= (length w) 1)
-       (or (equal? w '(0)) (= (first w) 1))
-       (andmap (λ (bit) (or (= bit 0) (= bit 1))) w)))
+(check-equal? (str->los "") '())
+(check-equal? (str->los "a!Cop") '(a ! C o p))
 
-(check-equal? (is-bin-nums? '(0)) #t)
-(check-equal? (is-bin-nums? '(1 0 0 1 0 1 1)) #t)
-(check-equal? (is-bin-nums? '(1 1 1 0 1 0 0 0 1 1 0 1)) #t)
-(check-equal? (is-bin-nums? '()) #f)
-(check-equal? (is-bin-nums? '(0 0 0 1 1 0 1 0)) #f)
+;; string --> Boolean
+;; Purpose: Test if the given string is a valid password
+(define (is-passwd? p)
+  (let [(los (str->los p))]
+    (and (>= (length los) 10)
+         (ormap (λ (c) (member c los)) lowers)
+         (ormap (λ (c) (member c los)) uppers)
+         (ormap (λ (c) (member c los)) spcls))))
 
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
 
-;; word --> Boolean
-;; Purpose: Test if the given word is in ENDS-WITH-A
-(define (is-ends-with-a? w)
-  (and (list? w)
-       (>= (length w) 1)
-       (eq? (last w) 'a)))
+(check-pred is-passwd? (generate-password))
+(check-pred is-passwd? (generate-password))
+(check-pred is-passwd? (generate-password))
+(check-pred is-passwd? (generate-password))
+(check-pred is-passwd? (generate-password))
 
-(check-equal? (is-ends-with-a? '(a)) #t)
-(check-equal? (is-ends-with-a? '(b b a)) #t)
-(check-equal? (is-ends-with-a? '(a b b a b a)) #t)
-(check-equal? (is-ends-with-a? '()) #f)
-(check-equal? (is-ends-with-a? '(b b b)) #f)
-(check-equal? (is-ends-with-a? '(a a a a b)) #f)
 
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
+
+
