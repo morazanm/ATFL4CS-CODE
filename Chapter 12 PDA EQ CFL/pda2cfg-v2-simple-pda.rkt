@@ -42,11 +42,11 @@
 
 (define P (make-ndpda '(S F)
                       '(a b)
-                      '(c d)
+                      '(c d e)
                       'S
                       '(F)
-                      `(((S a ,EMP) (F (c d)))
-                        ((F b (c d)) (F ,EMP)))))
+                      `(((S a ,EMP) (F (c d e)))
+                        ((F b (c d e)) (F ,EMP)))))
 
 (check-equal? (sm-apply P '(a b)) 'accept)
 
