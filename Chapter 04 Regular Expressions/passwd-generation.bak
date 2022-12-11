@@ -48,57 +48,71 @@
              (concat-regexp
               LOWER
               (concat-regexp
-               UPPER
-               (concat-regexp ARBTRY (concat-regexp SPCHS ARBTRY))))))
+               ARBTRY
+               (concat-regexp
+                UPPER
+                (concat-regexp ARBTRY (concat-regexp SPCHS ARBTRY)))))))
 
 (define LSU (concat-regexp
              ARBTRY
              (concat-regexp
               LOWER
               (concat-regexp
-               SPCHS
-               (concat-regexp ARBTRY (concat-regexp UPPER ARBTRY))))))
+               ARBTRY
+               (concat-regexp
+                SPCHS
+                (concat-regexp ARBTRY (concat-regexp UPPER ARBTRY)))))))
 
 (define SLU (concat-regexp
              ARBTRY
              (concat-regexp
               SPCHS
               (concat-regexp
-               LOWER
-               (concat-regexp ARBTRY (concat-regexp UPPER ARBTRY))))))
+               ARBTRY
+               (concat-regexp
+                LOWER
+                (concat-regexp ARBTRY (concat-regexp UPPER ARBTRY)))))))
 
 (define SUL (concat-regexp
              ARBTRY
              (concat-regexp
               SPCHS
               (concat-regexp
-               UPPER
-               (concat-regexp ARBTRY (concat-regexp LOWER ARBTRY))))))
+               ARBTRY
+               (concat-regexp
+                UPPER
+                (concat-regexp ARBTRY (concat-regexp LOWER ARBTRY)))))))
 
 (define USL (concat-regexp
              ARBTRY
              (concat-regexp
               UPPER
               (concat-regexp
-               SPCHS
-               (concat-regexp ARBTRY (concat-regexp LOWER ARBTRY))))))
+               ARBTRY
+               (concat-regexp
+                SPCHS
+                (concat-regexp ARBTRY (concat-regexp LOWER ARBTRY)))))))
 
 (define ULS (concat-regexp
              ARBTRY
              (concat-regexp
               UPPER
               (concat-regexp
-               LOWER
-               (concat-regexp ARBTRY (concat-regexp SPCHS ARBTRY))))))
+               ARBTRY
+               (concat-regexp
+                LOWER
+                (concat-regexp ARBTRY (concat-regexp SPCHS ARBTRY)))))))
 
 (define PASSWD (union-regexp
                 LUS
                 (union-regexp
                  LSU
-                 (union-regexp
-                  SLU
-                  (union-regexp SUL
-                                (union-regexp USL ULS))))))
+                 (concat-regexp
+                  ARBTRY
+                  (union-regexp
+                   SLU
+                   (union-regexp SUL
+                                 (union-regexp USL ULS)))))))
 
 ;; regexp --> word
 ;; Purpose: Generate a random word in the language of the

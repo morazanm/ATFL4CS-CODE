@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; Sample ndfa
 ;; L = (a U b U c)*

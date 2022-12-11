@@ -1,6 +1,6 @@
-#lang racket
+#lang fsm
 
-(require fsm rackunit "dfa2rg.rkt")
+(require "dfa2rg.rkt")
 
 (define EVEN-A-ODD-B (make-dfa '(S M N P)
                                '(a b)

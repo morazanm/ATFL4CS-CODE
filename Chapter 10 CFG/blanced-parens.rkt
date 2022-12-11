@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; string --> (listof (o or c)) throws error
 ;; Purpose: Converts given string of parens to a list of parens

@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;A password is a string that:
 ; Has length >= 10

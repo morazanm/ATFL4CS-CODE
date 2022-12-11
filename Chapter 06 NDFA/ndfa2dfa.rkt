@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 (provide ndfa2dfa)
 

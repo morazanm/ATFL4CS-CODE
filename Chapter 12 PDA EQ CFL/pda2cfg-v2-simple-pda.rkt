@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 (define a2nb2n (make-ndpda '(P Q)
                            '(a b)

@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm)
+#lang fsm
 
 ;;  --> (void)
 ;; Purpose: Print the natural numbers

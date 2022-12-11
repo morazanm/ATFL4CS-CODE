@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; word word word (listof state) symbol --> dfa-rule
 ;; Purpose: Generate dfa fail rule for given state and given word for given pattern

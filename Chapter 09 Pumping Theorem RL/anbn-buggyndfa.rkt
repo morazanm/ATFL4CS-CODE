@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 (define a2n-b2n (make-ndfa '(S F)
                           '(a b)

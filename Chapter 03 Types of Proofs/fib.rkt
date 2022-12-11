@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; natnum \arrow natnum
 ;; Purpose: Compute the nth Fibonacci number

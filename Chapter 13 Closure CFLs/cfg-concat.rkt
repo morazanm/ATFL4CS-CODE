@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; L = a^nb^n
 (define a2nb2n (make-cfg '(S)

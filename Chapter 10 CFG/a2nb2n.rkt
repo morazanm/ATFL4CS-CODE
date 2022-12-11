@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; Syntactic Categories
 ;;  S = words that start with n a and end with n b

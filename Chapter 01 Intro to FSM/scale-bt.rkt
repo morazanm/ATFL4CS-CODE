@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; A binary tree of numbers, (btof number), is either:
 ;;  1. '()

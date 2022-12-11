@@ -1,6 +1,6 @@
-#lang racket
+#lang fsm
 
-(require fsm rackunit "closure-algorithms.rkt")
+(require "closure-algorithms.rkt")
 
 ;; regexp alphabet --> ndfa
 ;; Purpose: Build an ndfa for the given regexp

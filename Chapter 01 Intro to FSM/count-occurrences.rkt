@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; X (listof X) --> number
 ;; Purpose: Count the number of times the given value occurs in the given list

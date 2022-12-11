@@ -3,12 +3,13 @@
 (require fsm rackunit)
 
 ;; natnum \arrow natnum
-;; Purpose: Compute the sum of the first n natural numbers
-(define (sum-natnums n)
-  (if (= n 0)
-      0
-      (+ n (sum-natnums (sub1 n)))))
+;; Purpose: Compute the nth Fibonacci number
+(define (fib n)
+  (if (< n 2)
+      n
+      (+ (fib (sub1 n)) (fib (- n 2)))))
            
-(check-equal? (sum-natnums 0)  0)
-(check-equal? (sum-natnums 5)  15)
-(check-equal? (sum-natnums 20) 210)
+(check-equal? (fib 0)  0)
+(check-equal? (fib 1)  1)
+(check-equal? (fib 5)  5)
+(check-equal? (fib 10) 55)

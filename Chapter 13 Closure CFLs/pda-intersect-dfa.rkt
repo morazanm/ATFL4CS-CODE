@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; L(M) = ab*
 (define M (make-dfa `(S F ,DEAD)

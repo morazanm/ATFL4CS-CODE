@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm test-engine/racket-tests)
+#lang fsm
 
 #|
  Data Definitions
@@ -25,7 +23,6 @@
             (map (lambda (x) (cons (car A) x)) rest)
             rest))]))
 
-(check-expect (powerSet EMPTY-SET) '(()))
-(check-expect (powerSet SET1) '((r e a) (r e) (r a) (r) (e a) (e) (a) ()))
-
-(test)
+(check-equal? (powerSet EMPTY-SET) '(()))
+(check-equal? (powerSet SET1)
+              '((r e a) (r e) (r a) (r) (e a) (e) (a) ()))

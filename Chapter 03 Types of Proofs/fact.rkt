@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; natnum --> natnum
 ;; Purpose: Compute n!

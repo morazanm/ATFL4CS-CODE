@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; word --> Boolean
 ;; Purpose: Decide if given word is in a^nb^n

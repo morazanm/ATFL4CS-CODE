@@ -1,15 +1,18 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; natnum \arrow natnum
-;; Purpose: Compute the nth Fibonacci number
-(define (fib n)
-  (if (< n 2)
-      n
-      (+ (fib (sub1 n)) (fib (- n 2)))))
+;; Purpose: Compute the sum of the integers in the given interval
+(define (sum-interval low high)
+  ;; integer integer \arrow integer
+  ;; Purpose: Compute the sum of the integers in [low..k]
+  ;; Accumulator Invariant
+  ;;    acc = SUM i for i=k+1 to high
+  (define (helper k acc)
+    (if (< k low)
+        acc
+        (helper (sub1 k) (+ k acc))))
+  (helper high 0))
            
-(check-equal? (fib 0)  0)
-(check-equal? (fib 1)  1)
-(check-equal? (fib 5)  5)
-(check-equal? (fib 10) 55)
+(check-equal? (sum-interval 5 4)  0)
+(check-equal? (sum-interval 1 3)  6)
+(check-equal? (sum-interval -4 2) -7)

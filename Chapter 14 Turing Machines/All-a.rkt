@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; States (i = head's position)
 ;;   S: tape[1..i-1] only contains as, starting state

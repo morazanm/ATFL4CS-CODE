@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; L = {ε} U ba*
 (define EMP-U-ba* (make-rg '(S A)

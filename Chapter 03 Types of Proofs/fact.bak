@@ -6,8 +6,9 @@
 ;; Purpose: Compute n!
 (define (fact n)
   ;; natnum natnum --> natnum
+  ;; Purpose: Compute the factorial of the given natural number
   ;; Accumulator Invariant
-  ;;    accum = PI i, for i in [k+1..n]
+  ;;    accum = PI i, for i in [j+1..n]
   (define (helper j accum)
     (if (= j 0)
         accum

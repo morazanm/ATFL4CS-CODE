@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; L = {w | the number of as in w is a multiple of 3}
 

@@ -1,8 +1,6 @@
-#lang racket
+#lang fsm
 
-(require rackunit)
-
-;; natnum \arrow natnum
+;; natnum --> natnum
 ;; Purpose: Compute the sum of the integers in the given interval
 (define (sum-interval low high)
   ;; integer integer \arrow integer

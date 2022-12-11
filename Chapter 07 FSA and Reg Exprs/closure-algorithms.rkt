@@ -1,6 +1,6 @@
-#lang racket
+#lang fsm
 
-(require fsm rackunit "ndfa2dfa.rkt")
+(require "ndfa2dfa.rkt")
 
 (provide concat-fsa union-fsa kstar-fsa)
 

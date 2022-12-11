@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 (define A (singleton-regexp "a"))
 (define B (singleton-regexp "b"))
@@ -11,10 +9,6 @@
 
 (check-equal? (printable-regexp ENDS-WITH-A) "(a U b)*a")
 
-
-;(define ZERO "0")
-
-;(define ONE  "1")
 
 (define ZERO (singleton-regexp "0"))
 

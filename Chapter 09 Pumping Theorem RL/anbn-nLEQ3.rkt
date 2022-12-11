@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 (define a^<=3b^<=3 (make-ndfa '(S A B C D E F)
                               '(a b)

@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; X (listof X) \arrow number
 ;; Purpose: Count the number of times the given value 

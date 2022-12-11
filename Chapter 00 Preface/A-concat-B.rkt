@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 (define AB (concat-regexp (singleton-regexp "a")
                           (singleton-regexp "b")))

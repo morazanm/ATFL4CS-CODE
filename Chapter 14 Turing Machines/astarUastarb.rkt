@@ -114,7 +114,7 @@
 (check-equal? (N-INV `(,LM a b a ,BLANK) 4) #t)
 (check-equal? (N-INV `(,LM a a a b b ,BLANK) 5) #t)
 
-(sm-visualize a*Ua*b
+#;(sm-visualize a*Ua*b
               (list 'S S-INV) (list 'A A-INV)
               (list 'B B-INV) (list 'C C-INV)
               (list 'Y Y-INV) (list 'N N-INV))

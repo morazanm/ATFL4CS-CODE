@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; L = {wcw^R | w in (a b)*}
 ;; States
@@ -84,4 +82,4 @@
 (check-equal? (F-INV '(b a c a b) '()) #t)
 (check-equal? (F-INV '(a b b c b b a) '()) #t)
 
-(sm-visualize wcw^r (list 'S S-INV) (list 'P P-INV) (list 'Q Q-INV) (list 'F F-INV))
+;(sm-visualize wcw^r (list 'S S-INV) (list 'P P-INV) (list 'Q Q-INV) (list 'F F-INV))

@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; L = ab* U ba*
 (define aUb-ba*Uab* (make-ndfa '(S A B C)

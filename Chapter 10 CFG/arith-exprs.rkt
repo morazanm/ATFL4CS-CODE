@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 (define AE (make-cfg '(S I)
                      '(p t x y z)

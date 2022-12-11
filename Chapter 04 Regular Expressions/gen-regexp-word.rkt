@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;; Sample regexps
 (define A (singleton-regexp "a"))
