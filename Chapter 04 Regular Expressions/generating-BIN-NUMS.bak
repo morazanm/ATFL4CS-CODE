@@ -1,6 +1,4 @@
-#lang racket
-
-(require fsm rackunit)
+#lang fsm
 
 ;;  --> BIN-NUMS
 ;; Purpose: Generate a binary number without leading zeroes of length <= MAX-LENGTH

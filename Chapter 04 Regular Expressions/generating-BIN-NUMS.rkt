@@ -4,7 +4,7 @@
 ;; Purpose: Generate a binary number without leading zeroes of length <= MAX-LENGTH
 (define (generate-bn)
   
-  (define MAX-LENGTH 50)
+  (define MAX-LENGTH 10)
 
   ;; natnum --> BIN-NUMS
   ;; Purpose: Generate a random word of bits of the given length
