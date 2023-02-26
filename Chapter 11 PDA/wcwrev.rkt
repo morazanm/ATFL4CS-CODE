@@ -52,7 +52,7 @@
 (check-equal? (P-INV '(a b a a) '(a a b a)) #t)
 
 ;; word stack --> Boolean
-;; Purpose: Determine if ci=s^Rv^Rcv
+;; Purpose: Determine if ci=s^Rv^Rcv AND and w=s^Rv^R
 (define (Q-INV ci s)
   (let* [(w (takef ci (λ (s) (not (eq? s 'c)))))
          (v (if (member 'c ci) (drop ci (add1 (length w))) '()))]
@@ -70,7 +70,7 @@
 ;; word stack --> Boolean
 ;; Purpose: Determine if ci=s^Rv^Rcv AND stack is empty
 (define (F-INV ci s)
-  (let* [(w (takef ci (λ (s) (not (eq? s 'c)))))]
+  (let [(w (takef ci (λ (s) (not (eq? s 'c)))))]
     (and (empty? s)
          (equal? ci (append w (list 'c) (reverse w))))))
 

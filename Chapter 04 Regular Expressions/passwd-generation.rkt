@@ -18,12 +18,10 @@
                    (singleton-regexp (symbol->string sc)))
                  spcls))
 
-(define MAX-KLEENESTAR-REPS 5)
-
 ;; (listof regexp) --> union-regexp
 ;; Purpose: Create a union-regexp using the given list of regular expressions
 (define (create-union-regexp L)
-  (cond [(< (length L) 2) (error "create-union-regexp called with empty")]
+  (cond [(< (length L) 2) (error "create-union-regexp: list too short")]
         [(empty? (rest (rest L))) (union-regexp (first L) (second L))]
         [else (union-regexp (first L) (create-union-regexp (rest L)))]))
 
@@ -112,50 +110,6 @@
                    (union-regexp SUL
                                  (union-regexp USL ULS)))))))
 
-;; regexp --> word
-;; Purpose: Generate a random word in the language of the
-;;          given regexp with a maximum length of 20
-(define (gen-regexp-word rexp)
-
-  ;; union-rexp --> (listof regexp)
-  ;; Purpose: Extract the sub-regexps of the given union-regexp
-  (define (extract-union-regexps urexp)
-    (let [(r1 (union-regexp-r1 urexp))
-          (r2 (union-regexp-r2 urexp))]
-      (if (not (union-regexp? r2))
-          (list r1 r2)
-          (cons r1 (extract-union-regexps r2)))))
-
-  ;; concat-rexp --> (listof regexp)
-  ;; Purpose: Extract the sub-regexps of the given concat-regexp
-  (define (extract-concat-regexps crexp)
-    (let [(r1 (concat-regexp-r1 crexp))
-          (r2 (concat-regexp-r2 crexp))]
-      (if (not (concat-regexp? r2))
-          (list r1 r2)
-          (cons r1 (extract-concat-regexps r2)))))
-  
-  (cond [(empty-regexp? rexp) EMP]
-        [(singleton-regexp? rexp)
-         (let* [(element (singleton-regexp-a rexp))]
-           (if (not (string<=? "0" element "9"))
-               (list (string->symbol element))
-               (list (string->number element))))]
-        [(kleenestar-regexp? rexp)
-         (let* [(reps (random MAX-KLEENESTAR-REPS))
-                (element-list (flatten
-                               (build-list
-                                reps
-                                (λ (i) (gen-regexp-word (kleenestar-regexp-r1 rexp))))))]
-           (if (empty? element-list) EMP element-list))]
-        [(union-regexp? rexp)
-         (let* [(uregexps (extract-union-regexps rexp))
-                (element (list-ref uregexps (random (length uregexps))))]
-           (gen-regexp-word element))]
-        [else (let [(cregexps (extract-concat-regexps rexp))]
-                (filter (λ (w) (not (eq? w EMP)))
-                        (flatten (map gen-regexp-word cregexps))))]))
-
 ;; word --> string
 ;; Purpose: Convert the given password to a string
 (define (passwd->string passwd)
@@ -173,7 +127,7 @@
 ;;  --> string
 ;; Purpose: Generate a valid password
 (define (generate-password)
-  (let [(new-passwd (passwd->string (gen-regexp-word PASSWD)))]
+  (let [(new-passwd (passwd->string (gen-regexp-word PASSWD 5)))]
     (if (>= (string-length new-passwd) 10)
         new-passwd
         (generate-password))))

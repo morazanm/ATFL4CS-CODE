@@ -82,7 +82,7 @@
 ;; Purpose: Determine if the given first word is in the given second word
 (define (contains-pattern? patt text sigma)
   (let [(M (build-pattern-dfa patt sigma))]
-    (if (eq? (sm-apply M text) 'accept) #t #f)))
+    (eq? (sm-apply M text) 'accept)))
 
 ;; Tests for contains-pattern?
 (check-equal? (contains-pattern? '(a b b a b c) '() '(a b c)) #f)

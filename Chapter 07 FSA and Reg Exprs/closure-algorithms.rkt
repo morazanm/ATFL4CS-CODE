@@ -207,3 +207,4 @@
 (check-equal? (sm-testequiv? a-aUb-b*-intersect-EVEN-A-ODD-B
                              (sm-intersection a-aUb-b* EVEN-A-ODD-B))
               #t)
+

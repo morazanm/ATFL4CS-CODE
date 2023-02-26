@@ -12,9 +12,22 @@
 
 ;; state emps-tbl --> ss
 ;; Purpose: Extract the empties of the given state
-;; Assume: Given state is in the given list of states
+;; Assume: Given state is in the given table
 (define (extract-empties st empties)
   (second (first (filter (λ (e) (eq? (first e) st)) empties))))
+
+;; Tests for extract-empties
+(check-equal? (extract-empties 'A '((S (S B))
+                                    (F (F))
+                                    (A (A C D))
+                                    (C (C))
+                                    (D (D))))
+              '(A C D))
+
+(check-equal? (extract-empties 'Z '((Z (Z S))
+                                    (S ())))
+              '(Z S))
+                   
 
 ;; (listof ss) alphabet emps-tbl (listof ndfa-rule) (listof ss) --> (listof ss-dfa-rule)
 ;; Purpose: Compute the dfa rules

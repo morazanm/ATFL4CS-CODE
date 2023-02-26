@@ -33,54 +33,40 @@
 ;        [else ...(f-on-regexp (concat-regexp-r1 rexp))...
 ;              ...(f-on-regexp (concat-regexp-r2 rexp))...]))
 
-(define MAX-KLEENESTAR-REPS 20)
+
               
-;; regexp --> word
+;; regexp [natnum] --> word
 ;; Purpose: Generate a random word in the language of the
-;;          given regexp
-;; Assume: The number of repetitions generated from a
-;;         Kleene star regular expression does not 
-;;         exceed MAX-KLEENESTAR-REPS
-(define (gen-regexp-word rexp)
-
-  ;; union-rexp --> (listof regexp)
-  ;; Purpose: Extract the sub-regexps in the chain for the given union-regexp
-  (define (extract-union-regexps urexp)
-    (let [(r1 (union-regexp-r1 urexp))
-          (r2 (union-regexp-r2 urexp))]
-      (if (not (union-regexp? r2))
-          (list r1 r2)
-          (cons r1 (extract-union-regexps r2)))))
-
-  ;; concat-rexp --> (listof regexp)
-  ;; Purpose: Extract the sub-regexps in the chain for the given concat-regexp
-  (define (extract-concat-regexps crexp)
-    (let [(r1 (concat-regexp-r1 crexp))
-          (r2 (concat-regexp-r2 crexp))]
-      (if (not (concat-regexp? r2))
-          (list r1 r2)
-          (cons r1 (extract-concat-regexps r2)))))
+;;          given regexp such that the number of repetitions
+;;          generated from a Kleene star regular expression  
+;;          does not exceed (max 20 reps).
+(define (gen-word rexp . reps)
+  (define MAX-KLEENESTAR-REPS (if (null? reps) 20 (first reps)))
   
-  (cond [(empty-regexp? rexp) EMP]
-        [(singleton-regexp? rexp)
-         (let [(element (singleton-regexp-a rexp))]
-           (if (not (string<=? "0" element "9"))
-               (list (string->symbol element))
-               (list (string->number element))))]
-        [(kleenestar-regexp? rexp)
-         (let* [(reps (random (add1 MAX-KLEENESTAR-REPS)))
-                (element-list (flatten
-                               (build-list
-                                reps
-                                (λ (i) (gen-regexp-word (kleenestar-regexp-r1 rexp))))))]
-           (if (empty? element-list) EMP element-list))]
-        [(union-regexp? rexp)
-         (let* [(uregexps (extract-union-regexps rexp))
-                (chosen (list-ref uregexps (random (length uregexps))))]
-           (gen-regexp-word chosen))]
-        [else (let [(cregexps (extract-concat-regexps rexp))]
-                (filter (λ (w) (not (eq? w EMP)))
-                        (flatten (map gen-regexp-word cregexps))))]))
+  ;; regexp --> word
+  ;; Purpose: Generate a word in the language of the given regexp
+  (define (generate rexp)
+    (cond [(empty-regexp? rexp) EMP]
+          [(singleton-regexp? rexp) (convert-singleton rexp)]
+          [(kleenestar-regexp? rexp)
+           (let* [(reps (pick-reps MAX-KLEENESTAR-REPS))
+                  (low (flatten
+                        (filter
+                         (λ (w) (not (eq? w EMP)))
+                         (build-list
+                          reps
+                          (lambda (i)
+                            (generate (kleenestar-regexp-r1 rexp)))))))]
+             (if (empty? low) EMP low))]
+          [(union-regexp? rexp) (generate (pick-regexp rexp))]
+          [else
+           (let [(w1 (gen-word (concat-regexp-r1 rexp)))
+                 (w2 (gen-word (concat-regexp-r2 rexp)))]
+             (cond [(and (eq? w1 EMP) (eq? w2 EMP)) EMP]
+                   [(eq? w1 EMP) w2]
+                   [(eq? w2 EMP) w1]
+                   [else (append w1 w2)]))]))
+  (generate rexp))
 
 ;; Tests
 
@@ -99,11 +85,11 @@
 (check-equal? (is-bin-nums? '()) #f)
 (check-equal? (is-bin-nums? '(0 0 0 1 1 0 1 0)) #f)
 
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
-(check-pred is-bin-nums? (gen-regexp-word BIN-NUMS))
+(check-pred is-bin-nums? (gen-word BIN-NUMS))
+(check-pred is-bin-nums? (gen-word BIN-NUMS))
+(check-pred is-bin-nums? (gen-word BIN-NUMS))
+(check-pred is-bin-nums? (gen-word BIN-NUMS 30))
+(check-pred is-bin-nums? (gen-word BIN-NUMS 50))
 
 ;; word --> Boolean
 ;; Purpose: Test if the given word is in ENDS-WITH-A
@@ -119,7 +105,7 @@
 (check-equal? (is-ends-with-a? '(b b b)) #f)
 (check-equal? (is-ends-with-a? '(a a a a b)) #f)
 
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
-(check-pred is-ends-with-a? (gen-regexp-word ENDS-WITH-A))
+(check-pred is-ends-with-a? (gen-word ENDS-WITH-A))
+(check-pred is-ends-with-a? (gen-word ENDS-WITH-A))
+(check-pred is-ends-with-a? (gen-word ENDS-WITH-A 18))
+(check-pred is-ends-with-a? (gen-word ENDS-WITH-A 7))

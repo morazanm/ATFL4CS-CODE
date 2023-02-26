@@ -1,7 +1,7 @@
 #lang fsm
 
 ;; L(M) = ab*
-(define M (make-dfa `(S F ,DEAD)
+(define M (make-dfa `(C S F ,DEAD)
                     '(a b)
                     'S
                     '(F)
@@ -9,6 +9,7 @@
                       (S b ,DEAD)
                       (F a ,DEAD)
                       (F b F)
+                      (C a ,DEAD)
                       (,DEAD a ,DEAD)
                       (,DEAD b ,DEAD))
                     'no-dead))

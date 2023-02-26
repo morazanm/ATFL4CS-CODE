@@ -4,7 +4,8 @@
 ;; Purpose: Decide if given word is in a^nb^n
 (define (is-in-a^nb^n? w)
   ;; word (listof symbol) --> Boolean
-  ;; Purpose: Determine
+  ;; Purpose: Determine if first given word has only bs that match 
+  ;;          as in the second given word
   ;; Accumulator Invariant
   ;;   acc = the unmatched as at the beginning of w
   ;; Assume: w in (a b)*
@@ -61,6 +62,8 @@
 (check-equal? (sm-apply a^nb^n '(b b)) 'reject)
 (check-equal? (sm-apply a^nb^n '(a b b)) 'reject)
 (check-equal? (sm-apply a^nb^n '(a b a a b b)) 'reject)
+(check-equal? (sm-apply a^nb^n '(a a b b a b)) 'reject)
+(check-equal? (sm-apply a^nb^n '(a a a b b b a a b b)) 'reject)
 (check-equal? (sm-apply a^nb^n '()) 'accept)
 (check-equal? (sm-apply a^nb^n '(a a b b)) 'accept)
 
