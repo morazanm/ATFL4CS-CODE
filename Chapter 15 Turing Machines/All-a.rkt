@@ -3,7 +3,7 @@
 ;; States (i = head's position)
 ;;   S: tape[1..i-1] only contains as, starting state
 ;;   Y: tape[i] = BLANK and tape[1..i-1] only contains as, final state
-;;   N: tape[1..i-1] contains a b, final state
+;;   N: tape[i] = b and tape[1..i-1] contains only as, final state
 
 ;; L = a*
 ;; PRE: tape = LMw_ AND i = 0
