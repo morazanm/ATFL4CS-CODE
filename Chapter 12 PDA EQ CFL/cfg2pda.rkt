@@ -9,6 +9,16 @@
                            (S ,ARROW aSb))
                          'S))
 
+;; Tests for a2nb2n
+(check-equal? (grammar-derive a2nb2n '(b b b))
+              "(b b b) is not in L(G).")
+(check-equal? (grammar-derive a2nb2n '(a b a))
+              "(a b a) is not in L(G).")
+(check-equal? (grammar-derive a2nb2n '(a b))
+              '(S -> aSb -> ab))
+(check-equal? (grammar-derive a2nb2n '(a a a b b b))
+              '(S -> aSb -> aaSbb -> aaaSbbb -> aaabbb))
+
 ;; L = {w | w in (a b)* AND  w has more b than a}
 (define numb>numa (make-cfg '(S A)
                             '(a b)
@@ -19,6 +29,28 @@
                               (A ,ARROW ,EMP)
                               (A ,ARROW bA))
                             'S))
+
+; Tests for numb>numa
+(check-equal? (grammar-derive numb>numa '(a b))
+              "(a b) is not in L(G).")
+(check-equal? (grammar-derive numb>numa '(a b a))
+              "(a b a) is not in L(G).")
+(check-equal? (grammar-derive numb>numa '(a a a a a))
+              "(a a a a a) is not in L(G).")
+(check-equal? (grammar-derive numb>numa '(b b b))
+              '(S -> AbA -> bA -> bbA -> bbbA -> bbb))
+#|
+(check-equal? (grammar-derive numb>numa '(b b a b a a b))
+              '(S -> AbA -> AbAaAbA -> bAaAbA -> bAbAaAaAbA
+                  -> bAbAaAbAaAaAbA -> bbAaAbAaAaAbA -> bbaAbAaAaAbA
+                  -> bbabAaAaAbA -> bbabaAaAbA -> bbabaaAbA
+                  -> bbabaabA -> bbabaab))
+(check-equal? (grammar-derive numb>numa '(a a a b b b b))
+              '(S -> AbA -> AaAbAbA -> aAbAbA -> aAaAbAbAbA
+                  -> aaAbAbAbA -> aaAaAbAbAbAbA -> aaaAbAbAbAbA
+                  -> aaabAbAbAbA -> aaabbAbAbA -> aaabbbAbA
+                  ->  aaabbbbA -> aaabbbb))
+|#
 
 ;; cfg --> pda
 ;; Purpose: Transform the given cfg into a pda
@@ -56,6 +88,6 @@
 
 (check-equal? (sm-apply numb>numa-pda '(b b b)) 'accept)
 (check-equal? (sm-apply numb>numa-pda '(b b a)) 'accept)
-(check-equal? (sm-apply numb>numa-pda '(b b a b b)) 'accept)
+;(check-equal? (sm-apply numb>numa-pda '(b b a b b)) 'accept)
 ;(check-equal? (sm-apply numb>numa-pda '(a b b a b)) 'accept) ;; ~3 mins
 

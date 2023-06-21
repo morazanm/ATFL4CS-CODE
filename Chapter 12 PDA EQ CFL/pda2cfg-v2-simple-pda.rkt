@@ -492,6 +492,18 @@ A cfg-rl is a (list lhs ARROW rhs)
 (define pstart (grammar-start P-grammar))
 
 
+;; L = {w | w in (a b)* AND  w has more b than a}
+(define numb>numa (make-cfg '(S A)
+                            '(a b)
+                            `((S ,ARROW b)
+                              (S ,ARROW AbA)
+                              (A ,ARROW AaAbA)
+                              (A ,ARROW AbAaA)
+                              (A ,ARROW ,EMP)
+                              (A ,ARROW bA))
+                            'S))
+
+(define D (pda2spda (grammar->sm numb>numa)))
 
 
 
