@@ -1,7 +1,7 @@
 #lang fsm
 
 ;; L = ab* U ba*
-(define aUb-ba*Uab* (make-ndfa '(S A B C)
+#;(define aUb-ba*Uab* (make-ndfa '(S A B C)
                                '(a b)
                                'S
                                '(B C)
@@ -11,6 +11,17 @@
                                  (A b C)
                                  (B b B)
                                  (C a C))))
+(define aUb-ba*Uab* (make-ndfa '(S A B C D)
+                               '(a b)
+                               'S
+                               '(C D)
+                               `((S ,EMP A)
+                                 (S ,EMP B)
+                                 (A a C)
+                                 (C b C)
+                                 (B b D)
+                                 (D a D)
+                                 )))
 
 ;; L = b*
 (define b* (make-ndfa `(,DEAD S A)

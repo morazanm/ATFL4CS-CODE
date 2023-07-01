@@ -170,8 +170,8 @@
 
 ;; CTMs
 
-;; PRE:  tape = (LM w) AND i=k>0 AND w in (a b BLANK)*
-;; POST: tape = (LM w) AND i=k+2 AND w in (a b BLANK)*
+;; PRE:  tape = (LM w) AND i=k>0 AND w in (a b)*
+;; POST: tape = (LM w) AND i=k+2 AND w in (a b)*
 (define RR (combine-tms (list R R) '(a b)))
 
 (check-equal? (ctm-run RR `(,LM b a a) 1) `(F 3 (,LM b a a)))
