@@ -8,7 +8,11 @@
   (let* [(simple-tbl (map (λ (a)
                             (let [(S (generate-symbol 'S '(S)))
                                   (A (generate-symbol 'A '(A)))]
-                              (list a (make-ndfa (list S A) sigma S (list A) (list (list S a A))))))
+                              (list a (make-ndfa (list S A)
+                                                 sigma
+                                                 S
+                                                 (list A)
+                                                 (list (list S a A))))))
                           (cons EMP sigma)))]
     (cond [(empty-regexp? e)
            (second (assoc EMP simple-tbl))]

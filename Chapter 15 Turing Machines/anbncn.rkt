@@ -346,7 +346,7 @@ STATE DOCUMENTATION (i is head's position, w is the input word, and xs is all x 
 (check-equal? (Y-INV `(,LM ,BLANK ,BLANK) 2) #t)
 (check-equal? (Y-INV `(,LM ,BLANK x x x x x x ,BLANK) 8) #t) ;;;
 
-(sm-visualize anbncn
+#;(sm-visualize anbncn
               (list 'S S-INV) (list 'A A-INV) (list 'B B-INV)
               (list 'C C-INV) (list 'D D-INV) (list 'E E-INV)
               (list 'F F-INV) (list 'G G-INV) (list 'H H-INV)
