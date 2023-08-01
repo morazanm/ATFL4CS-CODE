@@ -123,7 +123,7 @@
                     R
                     (list GOTO 5)
                     5)
-              `(a b ,LM)))
+              `(a b)))
 
 (check-equal? (rest (ctm-run COPY `(,LM ,BLANK ,BLANK ,BLANK) 3))
               `(5 (,LM  ,BLANK ,BLANK ,BLANK ,BLANK ,BLANK)))

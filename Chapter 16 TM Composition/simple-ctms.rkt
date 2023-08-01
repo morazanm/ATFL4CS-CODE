@@ -50,7 +50,7 @@
 ;;  PRE: tape = (LM w) AND i=k>0 AND tape[i]=s, where w in (a b BLANK)* AND s in (a b BLANK)
 ;; POST: tape = (LM w) AND i=k AND tape[i]=a
 (define Wa (make-tm '(S H)
-                    `(a b ,LM)
+                    `(a b)
                     `(((S a) (H a))
                       ((S b) (H a))
                       ((S ,BLANK) (H a)))
@@ -65,7 +65,7 @@
 ;;  PRE: tape = (LM w) AND i=k>0 AND tape[i]=s, where w in (a b BLANK)* AND s in (a b BLANK)
 ;; POST: tape = (LM w) AND i=k AND tape[i]=b
 (define Wb (make-tm '(S H)
-                    `(a b ,LM)
+                    `(a b)
                     `(((S a) (H b))
                       ((S b) (H b))
                       ((S ,BLANK) (H b)))
@@ -80,7 +80,7 @@
 ;;  PRE: tape = (LM w) AND i=k>0 AND tape[i]=s, where w in (a b BLANK)* AND s in (a b BLANK)
 ;; POST: tape = (LM w) AND i=k AND tape[i]=BLANK
 (define WB (make-tm '(S H)
-                    `(a b ,LM)
+                    `(a b)
                     `(((S a) (H ,BLANK))
                       ((S b) (H ,BLANK))
                       ((S ,BLANK) (H ,BLANK)))
