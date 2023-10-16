@@ -21,7 +21,7 @@ STATE DOCUMENTATION (i is head's position, w is the input word, and xs is all x 
 ;; L = a^n b^n c^n
 ;; PRE: tape = `(,LM ,BLANK w) ∧ i = 1, where w∈{a b c}∗
 ;; Σ = {a b c x}
-(define anbncn (make-tm '(S A B C D E F G H I J K L Y)
+(define anbncn (make-tm '(s A B C D E F G H I J K L Y)
                         '(a b c x)
                         `(((S ,BLANK) (J ,RIGHT))
                           ((J ,BLANK) (Y ,BLANK))
