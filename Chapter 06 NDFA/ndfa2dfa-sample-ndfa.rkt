@@ -36,7 +36,8 @@
               (C a A)
               (C b B)
               (,DEAD a ,DEAD)
-              (,DEAD b ,DEAD))))
+              (,DEAD b ,DEAD))
+            'no-dead))
 
 ;; Tests for D
 (check-equal? (sm-testequiv? D ND 500) #t)
